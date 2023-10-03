@@ -4,11 +4,17 @@ import ProductsList from "./ProductsList"
 import { useState } from "react"
 import { BsFillGridFill, BsList } from "react-icons/bs"
 
+const getLayoutType = () => {
+  const comfyLayout = localStorage.getItem("comfyLayoutType")
+  const newLayout = comfyLayout ? comfyLayout : "grid"
+  return newLayout
+}
+
 const ProductsContainer = () => {
   const { meta } = useLoaderData()
   const totalProducts = meta.pagination.total
 
-  const [layout, setLayout] = useState("grid")
+  const [layout, setLayout] = useState(getLayoutType())
 
   const setActiveStyles = (pattern) => {
     return `text-xl btn btn-circle btn-sm ${
@@ -28,7 +34,10 @@ const ProductsContainer = () => {
         <div className='flex gap-x-2'>
           <button
             type='button'
-            onClick={() => setLayout("grid")}
+            onClick={() => {
+              localStorage.setItem("comfyLayoutType", "grid")
+              setLayout("grid")
+            }}
             className={setActiveStyles("grid")}
           >
             <BsFillGridFill />
@@ -36,7 +45,10 @@ const ProductsContainer = () => {
 
           <button
             type='button'
-            onClick={() => setLayout("list")}
+            onClick={() => {
+              localStorage.setItem("comfyLayoutType", "list")
+              setLayout("list")
+            }}
             className={setActiveStyles("list")}
           >
             <BsList />
